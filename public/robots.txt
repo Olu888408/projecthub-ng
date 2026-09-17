@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /dashboard
+Disallow: /projects
+Disallow: /profile
+Disallow: /notifications
+
+Sitemap: https://projecthubng.netlify.app/sitemap.xml
