@@ -24,7 +24,6 @@ export function ProjectDetailPage() {
   const [newMessage, setNewMessage] = useState('');
   const [sendingMessage, setSendingMessage] = useState(false);
   const [paying, setPaying] = useState(false);
-  const [payingPaystack, setPayingPaystack] = useState(false);
   const [transferReference, setTransferReference] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -111,58 +110,6 @@ export function ProjectDetailPage() {
     setFiles(files.filter((f) => f.id !== file.id));
     showToast('File deleted', 'success');
   }
-
-  async function handlePayWithPaystack() {
-    if (!project || !user) return;
-    const pkgPrice = pkg ? Number(pkg.price) : 0;
-    if (pkgPrice <= 0) {
-      showToast('Please select a package with a price to pay', 'error');
-      return;
-    }
-    setPayingPaystack(true);
-    // Paystack appends its own reference/trxref query params to this URL
-    // after checkout, so keep it clean of an existing query string. Query
-    // params (not hash) survive the round trip since this app's hash
-    // router only reads window.location.hash, not window.location.search.
-    const callbackUrl = `${window.location.origin}${window.location.pathname}#/projects/${project.id}`;
-    const { data, error } = await supabase.functions.invoke('paystack-init', {
-      body: { projectId: project.id, packageId: project.package_id, callbackUrl },
-    });
-    setPayingPaystack(false);
-    if (error || !data?.authorizationUrl) {
-      showToast('Failed to start Paystack payment. Please try again.', 'error');
-      return;
-    }
-    window.location.href = data.authorizationUrl;
-  }
-
-  // After returning from Paystack's checkout, verify the transaction. The
-  // reference/trxref Paystack appends land in the query string (before the
-  // hash), which the app's hash router doesn't otherwise look at.
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const reference = params.get('reference') || params.get('trxref');
-    if (!reference || !id) return;
-    (async () => {
-      const { data, error } = await supabase.functions.invoke('paystack-verify', {
-        body: { reference },
-      });
-      // Strip the query string so refreshing the page doesn't re-verify.
-      window.history.replaceState({}, '', window.location.pathname + window.location.hash);
-      if (error) {
-        showToast('Could not verify payment. If you were charged, contact support.', 'error');
-        return;
-      }
-      if (data?.status === 'success') {
-        showToast('Payment confirmed!', 'success');
-      } else {
-        showToast('Payment was not successful.', 'error');
-      }
-      const { data: payData } = await supabase.from('payments').select('*').eq('project_id', id).order('created_at', { ascending: false });
-      if (payData) setPayments(payData as Payment[]);
-    })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id]);
 
   async function handleBankTransferSubmit() {
     if (!project || !user) return;
@@ -255,20 +202,8 @@ export function ProjectDetailPage() {
             </div>
             <p className="text-lg font-bold text-slate-900">₦{pkg.price.toLocaleString()}</p>
           </div>
-                    {!isAdmin && (
+          {!isAdmin && (
             <div className="mt-4 pt-4 border-t border-slate-100">
-              <Button onClick={handlePayWithPaystack} disabled={payingPaystack} className="w-full mb-4">
-                {payingPaystack ? (
-                  <><Loader2 className="w-4 h-4 animate-spin" /> Starting checkout...</>
-                ) : (
-                  <><CreditCard className="w-4 h-4" /> Pay ₦{pkg.price.toLocaleString()} with Paystack</>
-                )}
-              </Button>
-              <div className="flex items-center gap-3 mb-4">
-                <div className="flex-1 h-px bg-slate-200" />
-                <span className="text-xs text-slate-400">or</span>
-                <div className="flex-1 h-px bg-slate-200" />
-              </div>
               <div className="bg-slate-50 rounded-lg p-4 mb-3">
                 <p className="text-sm font-semibold text-slate-700 mb-2">Pay via Bank Transfer</p>
                 <div className="space-y-1 text-sm">
