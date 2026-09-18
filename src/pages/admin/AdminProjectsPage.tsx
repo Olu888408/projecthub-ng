@@ -36,7 +36,7 @@ export function AdminProjectsPage() {
 
   return (
     <div className="container-page py-8 animate-fade-in">
-      <h1 className="text-2xl font-bold text-slate-900 mb-6">Manage Projects</h1>
+      <h1 className="font-serif text-2xl text-slate-900 mb-6">Manage Projects</h1>
 
       <div className="flex flex-col sm:flex-row gap-3 mb-6">
         <div className="relative flex-1">
@@ -70,7 +70,7 @@ export function AdminProjectsPage() {
       ) : (
         <div className="space-y-3">
           {filtered.map((project) => (
-            <Card key={project.id} className="p-5 hover:shadow-md transition-shadow cursor-pointer">
+            <Card key={project.id} className="p-5 hover:border-slate-300 transition-colors cursor-pointer">
               <div onClick={() => navigate(`/admin/projects/${project.id}`)} className="flex items-center justify-between">
                 <div className="flex-1 min-w-0">
                   <h3 className="font-semibold text-slate-900 truncate">{project.title}</h3>

@@ -31,7 +31,7 @@ export function PackagesPage() {
     <div className="animate-fade-in">
       <section className="bg-gradient-to-b from-slate-50 to-white py-16">
         <div className="container-page text-center max-w-3xl mx-auto">
-          <h1 className="text-4xl font-bold text-slate-900">Pricing Packages</h1>
+          <h1 className="font-serif text-4xl text-slate-900">Pricing Packages</h1>
           <p className="mt-4 text-lg text-slate-600">
             Choose the package that best suits your needs. All prices are in Nigerian Naira.
           </p>
@@ -47,9 +47,9 @@ export function PackagesPage() {
                   Most Popular
                 </div>
               )}
-              <h3 className="text-xl font-bold text-slate-900">{pkg.title}</h3>
+              <h3 className="font-serif text-xl text-slate-900">{pkg.title}</h3>
               <p className="mt-2 text-sm text-slate-500">{pkg.description}</p>
-              <div className="mt-4 text-4xl font-bold text-slate-900">{formatCurrency(pkg.price)}</div>
+              <div className="mt-4 font-serif text-4xl text-slate-900">{formatCurrency(pkg.price)}</div>
               <ul className="mt-6 space-y-3 flex-1">
                 {pkg.features.map((f) => (
                   <li key={f} className="flex items-start gap-2 text-sm text-slate-600">

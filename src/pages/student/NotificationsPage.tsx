@@ -39,7 +39,7 @@ export function NotificationsPage() {
   return (
     <div className="container-page py-8 max-w-2xl animate-fade-in">
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-slate-900">Notifications</h1>
+        <h1 className="font-serif text-2xl text-slate-900">Notifications</h1>
         {notifications.some((n) => !n.read_at) && (
           <Button size="sm" variant="outline" onClick={markAllRead}>
             <CheckCheck className="w-4 h-4" /> Mark all read

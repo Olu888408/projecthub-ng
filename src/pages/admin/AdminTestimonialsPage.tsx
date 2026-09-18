@@ -72,7 +72,7 @@ export function AdminTestimonialsPage() {
   return (
     <div className="container-page py-8 animate-fade-in">
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-slate-900">Testimonials</h1>
+        <h1 className="font-serif text-2xl text-slate-900">Testimonials</h1>
         <Button onClick={() => setShowForm(!showForm)}>
           <Plus className="w-4 h-4" /> Add Testimonial
         </Button>

@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { FileText, Users, TrendingUp, Clock, DollarSign, Mail } from 'lucide-react';
+import { Mail } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from '@/context/RouterContext';
-import { Card, Spinner, Badge } from '@/components/ui';
+import { Spinner, Badge } from '@/components/ui';
 import { supabase } from '@/lib/supabase';
 import { statusColors, statusLabel, formatDate, formatCurrency } from '@/lib/utils';
 import type { Project, ContactMessage } from '@/types/database';
@@ -26,7 +26,7 @@ export function AdminDashboard() {
         { count: pendingProjects },
         { count: activeProjects },
       ] = await Promise.all([
-        supabase.from('projects').select('*, package:packages(*)').order('created_at', { ascending: false }).limit(5),
+        supabase.from('projects').select('*, package:packages(*)').order('created_at', { ascending: false }).limit(6),
         supabase.from('profiles').select('*', { count: 'exact', head: true }).eq('role', 'student'),
         supabase.from('payments').select('amount').eq('status', 'success'),
         supabase.from('contact_messages').select('*').order('created_at', { ascending: false }).limit(5),
@@ -52,85 +52,91 @@ export function AdminDashboard() {
     return <div className="flex items-center justify-center py-20"><Spinner className="h-8 w-8" /></div>;
   }
 
-  const statCards = [
-    { icon: FileText, label: 'Total Projects', value: stats.totalProjects, color: 'text-teal-600 bg-teal-50' },
-    { icon: Clock, label: 'Pending Review', value: stats.pendingProjects, color: 'text-amber-600 bg-amber-50' },
-    { icon: TrendingUp, label: 'Active Projects', value: stats.activeProjects, color: 'text-blue-600 bg-blue-50' },
-    { icon: Users, label: 'Students', value: stats.totalStudents, color: 'text-purple-600 bg-purple-50' },
-    { icon: DollarSign, label: 'Revenue', value: formatCurrency(stats.totalRevenue), color: 'text-emerald-600 bg-emerald-50' },
+  const statItems = [
+    { label: 'Total projects', value: stats.totalProjects },
+    { label: 'Awaiting review', value: stats.pendingProjects },
+    { label: 'Active', value: stats.activeProjects },
+    { label: 'Students', value: stats.totalStudents },
+    { label: 'Revenue', value: formatCurrency(stats.totalRevenue), onClick: () => navigate('/admin/payments') },
   ];
 
   return (
-    <div className="container-page py-8 animate-fade-in">
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold text-slate-900">Admin Dashboard</h1>
-        <p className="text-sm text-slate-600 mt-1">Welcome, {profile?.full_name || 'Admin'}</p>
+    <div className="container-page py-8">
+      <div className="mb-6">
+        <h1 className="font-serif text-2xl text-slate-900">Admin Dashboard</h1>
+        <p className="text-sm text-slate-500 mt-1">Welcome, {profile?.full_name || 'Admin'}</p>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
-        {statCards.map((stat) => (
-          <Card
+      <dl className="grid grid-cols-2 md:grid-cols-5 gap-px bg-slate-200 border border-slate-200 rounded-lg overflow-hidden mb-8">
+        {statItems.map((stat) => (
+          <div
             key={stat.label}
-            className={`p-5 ${stat.label === 'Revenue' ? 'cursor-pointer hover:shadow-md transition-shadow' : ''}`}
-            onClick={stat.label === 'Revenue' ? () => navigate('/admin/payments') : undefined}
+            className={`bg-white p-4 ${stat.onClick ? 'cursor-pointer hover:bg-slate-50' : ''}`}
+            onClick={stat.onClick}
           >
-            <div className={`w-10 h-10 rounded-lg flex items-center justify-center mb-3 ${stat.color}`}>
-              <stat.icon className="w-5 h-5" />
-            </div>
-            <div className="text-xl font-bold text-slate-900">{stat.value}</div>
-            <div className="text-xs text-slate-500">{stat.label}</div>
-          </Card>
+            <dt className="text-xs text-slate-500">{stat.label}</dt>
+            <dd className="mt-1 text-xl font-serif text-slate-900">{stat.value}</dd>
+          </div>
         ))}
-      </div>
+      </dl>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div>
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-slate-900">Recent Projects</h2>
-            <button onClick={() => navigate('/admin/projects')} className="text-sm text-teal-600 hover:underline">View all</button>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="lg:col-span-2">
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="text-sm font-semibold text-slate-700">Recent projects</h2>
+            <button onClick={() => navigate('/admin/projects')} className="text-sm text-teal-700 hover:underline">View all</button>
           </div>
-          <div className="space-y-2">
-            {recentProjects.length === 0 ? (
-              <Card className="p-6 text-center text-sm text-slate-500">No projects yet</Card>
-            ) : (
-              recentProjects.map((p) => (
-                <Card key={p.id} className="p-4 hover:shadow-md transition-shadow cursor-pointer" >
-                  <div onClick={() => navigate(`/admin/projects/${p.id}`)}>
-                    <div className="flex items-center justify-between">
-                      <p className="font-medium text-slate-900 truncate">{p.title}</p>
+          {recentProjects.length === 0 ? (
+            <p className="text-sm text-slate-500 py-6 border-y border-slate-200 text-center">No projects yet</p>
+          ) : (
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-y border-slate-200 text-left text-xs text-slate-500">
+                  <th className="py-2 font-medium">Title</th>
+                  <th className="py-2 font-medium">Date</th>
+                  <th className="py-2 font-medium text-right">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {recentProjects.map((p) => (
+                  <tr
+                    key={p.id}
+                    onClick={() => navigate(`/admin/projects/${p.id}`)}
+                    className="border-b border-slate-100 hover:bg-slate-50 cursor-pointer"
+                  >
+                    <td className="py-2.5 pr-4 font-medium text-slate-900 max-w-[220px] truncate">{p.title}</td>
+                    <td className="py-2.5 pr-4 text-slate-500 whitespace-nowrap">{formatDate(p.created_at)}</td>
+                    <td className="py-2.5 text-right">
                       <Badge className={statusColors(p.status)}>{statusLabel(p.status)}</Badge>
-                    </div>
-                    <p className="text-xs text-slate-400 mt-1">{formatDate(p.created_at)}</p>
-                  </div>
-                </Card>
-              ))
-            )}
-          </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
         </div>
 
         <div>
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-slate-900">Recent Contact Messages</h2>
-            <button onClick={() => navigate('/admin/messages')} className="text-sm text-teal-600 hover:underline">View all</button>
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="text-sm font-semibold text-slate-700">Contact messages</h2>
+            <button onClick={() => navigate('/admin/messages')} className="text-sm text-teal-700 hover:underline">View all</button>
           </div>
-          <div className="space-y-2">
-            {recentMessages.length === 0 ? (
-              <Card className="p-6 text-center text-sm text-slate-500">No contact messages</Card>
-            ) : (
-              recentMessages.map((m) => (
-                <Card key={m.id} className="p-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <Mail className="w-4 h-4 text-slate-400" />
-                      <p className="font-medium text-slate-900">{m.name}</p>
-                    </div>
-                    <p className="text-xs text-slate-400">{formatDate(m.created_at)}</p>
+          {recentMessages.length === 0 ? (
+            <p className="text-sm text-slate-500 py-6 border-y border-slate-200 text-center">No messages</p>
+          ) : (
+            <div className="border-t border-slate-200">
+              {recentMessages.map((m) => (
+                <div key={m.id} className="py-3 border-b border-slate-100">
+                  <div className="flex items-center gap-2">
+                    <Mail className="w-3.5 h-3.5 text-slate-400" />
+                    <p className="text-sm font-medium text-slate-900">{m.name}</p>
+                    <span className="text-xs text-slate-400 ml-auto">{formatDate(m.created_at)}</span>
                   </div>
                   <p className="text-sm text-slate-600 mt-1 truncate">{m.message}</p>
-                </Card>
-              ))
-            )}
-          </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>

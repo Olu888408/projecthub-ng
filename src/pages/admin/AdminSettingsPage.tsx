@@ -96,7 +96,7 @@ export function AdminSettingsPage() {
 
   return (
     <div className="container-page py-8 max-w-3xl animate-fade-in">
-      <h1 className="text-2xl font-bold text-slate-900 mb-6">Settings</h1>
+      <h1 className="font-serif text-2xl text-slate-900 mb-6">Settings</h1>
 
       <div className="flex gap-2 mb-6">
         <button

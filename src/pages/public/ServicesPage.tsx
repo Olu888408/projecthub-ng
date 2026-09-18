@@ -68,7 +68,7 @@ export function ServicesPage() {
     <div className="animate-fade-in">
       <section className="bg-gradient-to-b from-slate-50 to-white py-16">
         <div className="container-page text-center max-w-3xl mx-auto">
-          <h1 className="text-4xl font-bold text-slate-900">Our Services</h1>
+          <h1 className="font-serif text-4xl text-slate-900">Our Services</h1>
           <p className="mt-4 text-lg text-slate-600">
             Browse our academic research support services across multiple disciplines. Select a service to request assistance.
           </p>
@@ -104,7 +104,7 @@ export function ServicesPage() {
           {filtered.map((service) => {
             const Icon = CATEGORY_ICONS[service.category] || BookOpen;
             return (
-              <Card key={service.name} className="p-6 hover:shadow-md transition-shadow flex flex-col">
+              <Card key={service.name} className="p-6 hover:border-slate-300 transition-colors flex flex-col">
                 <div className="w-12 h-12 rounded-lg bg-teal-50 flex items-center justify-center mb-4">
                   <Icon className="w-6 h-6 text-teal-600" />
                 </div>

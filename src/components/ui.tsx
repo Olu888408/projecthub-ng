@@ -16,10 +16,10 @@ export function Button({
 } & React.ButtonHTMLAttributes<HTMLButtonElement>) {
   const variants = {
     primary: 'bg-teal-600 text-white hover:bg-teal-700 active:bg-teal-800',
-    secondary: 'bg-slate-800 text-white hover:bg-slate-900 active:bg-slate-950',
-    outline: 'border border-slate-300 text-slate-700 hover:bg-slate-50 active:bg-slate-100',
-    ghost: 'text-slate-600 hover:bg-slate-100 active:bg-slate-200',
-    danger: 'bg-red-600 text-white hover:bg-red-700 active:bg-red-800',
+    secondary: 'bg-amber-600 text-white hover:bg-amber-700 active:bg-amber-800',
+    outline: 'border border-slate-300 text-slate-800 hover:border-slate-400 hover:bg-slate-50 active:bg-slate-100',
+    ghost: 'text-slate-700 hover:bg-slate-100 active:bg-slate-200',
+    danger: 'bg-red-700 text-white hover:bg-red-800 active:bg-red-900',
   };
   const sizes = {
     sm: 'px-3 py-1.5 text-sm',
@@ -30,7 +30,7 @@ export function Button({
     <button
       type={type}
       className={cn(
-        'inline-flex items-center justify-center gap-2 rounded-lg font-medium transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-teal-500/30',
+        'inline-flex items-center justify-center gap-2 rounded-lg font-medium transition-colors duration-150 disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600',
         variants[variant],
         sizes[size],
         className
@@ -46,7 +46,7 @@ export function Card({ children, className, style, onClick }: { children: ReactN
   if (onClick) {
     return (
       <div
-        className={cn('bg-white rounded-xl border border-slate-200 shadow-sm', className)}
+        className={cn('bg-white rounded-xl border border-slate-200', className)}
         style={style}
         onClick={onClick}
         role="button"
@@ -63,7 +63,7 @@ export function Card({ children, className, style, onClick }: { children: ReactN
     );
   }
   return (
-    <div className={cn('bg-white rounded-xl border border-slate-200 shadow-sm', className)} style={style}>
+    <div className={cn('bg-white rounded-xl border border-slate-200', className)} style={style}>
       {children}
     </div>
   );
@@ -71,7 +71,7 @@ export function Card({ children, className, style, onClick }: { children: ReactN
 
 export function Badge({ children, className }: { children: ReactNode; className?: string }) {
   return (
-    <span className={cn('inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border', className)}>
+    <span className={cn('inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium border', className)}>
       {children}
     </span>
   );
@@ -92,13 +92,13 @@ export function Input({
       {label && <label className="block text-sm font-medium text-slate-700 mb-1.5">{label}</label>}
       <input
         className={cn(
-          'w-full px-4 py-2.5 rounded-lg border border-slate-300 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 transition-colors',
-          error && 'border-red-300 focus:ring-red-500/30 focus:border-red-500',
+          'w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-600/20 focus:border-teal-600 transition-colors',
+          error && 'border-red-400 focus:ring-red-500/20 focus:border-red-500',
           className
         )}
         {...props}
       />
-      {error && <p className="mt-1 text-xs text-red-600">{error}</p>}
+      {error && <p className="mt-1 text-xs text-red-700">{error}</p>}
     </div>
   );
 }
@@ -118,13 +118,13 @@ export function Textarea({
       {label && <label className="block text-sm font-medium text-slate-700 mb-1.5">{label}</label>}
       <textarea
         className={cn(
-          'w-full px-4 py-2.5 rounded-lg border border-slate-300 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 transition-colors resize-y',
-          error && 'border-red-300 focus:ring-red-500/30 focus:border-red-500',
+          'w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-600/20 focus:border-teal-600 transition-colors resize-y',
+          error && 'border-red-400 focus:ring-red-500/20 focus:border-red-500',
           className
         )}
         {...props}
       />
-      {error && <p className="mt-1 text-xs text-red-600">{error}</p>}
+      {error && <p className="mt-1 text-xs text-red-700">{error}</p>}
     </div>
   );
 }
@@ -146,15 +146,15 @@ export function Select({
       {label && <label className="block text-sm font-medium text-slate-700 mb-1.5">{label}</label>}
       <select
         className={cn(
-          'w-full px-4 py-2.5 rounded-lg border border-slate-300 text-slate-900 focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 transition-colors bg-white',
-          error && 'border-red-300',
+          'w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-slate-900 focus:outline-none focus:ring-2 focus:ring-teal-600/20 focus:border-teal-600 transition-colors bg-white',
+          error && 'border-red-400',
           className
         )}
         {...props}
       >
         {children}
       </select>
-      {error && <p className="mt-1 text-xs text-red-600">{error}</p>}
+      {error && <p className="mt-1 text-xs text-red-700">{error}</p>}
     </div>
   );
 }
@@ -169,7 +169,7 @@ export function EmptyState({ icon, title, description, action }: { icon?: ReactN
   return (
     <div className="flex flex-col items-center justify-center py-16 px-4 text-center">
       {icon && <div className="mb-4 text-slate-300">{icon}</div>}
-      <h3 className="text-lg font-semibold text-slate-700">{title}</h3>
+      <h3 className="text-lg font-semibold text-slate-800">{title}</h3>
       {description && <p className="mt-1 text-sm text-slate-500 max-w-sm">{description}</p>}
       {action && <div className="mt-6">{action}</div>}
     </div>

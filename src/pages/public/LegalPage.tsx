@@ -37,7 +37,7 @@ export function LegalPage() {
     return (
       <div className="container-page py-20 text-center">
         <FileText className="w-12 h-12 text-slate-300 mx-auto mb-4" />
-        <h1 className="text-2xl font-bold text-slate-900">Page not found</h1>
+        <h1 className="font-serif text-2xl text-slate-900">Page not found</h1>
         <p className="mt-2 text-slate-600">The legal page you're looking for doesn't exist.</p>
         <button onClick={() => navigate('/')} className="mt-4 text-teal-600 hover:underline">Go home</button>
       </div>
@@ -46,7 +46,7 @@ export function LegalPage() {
 
   return (
     <div className="animate-fade-in container-page py-16 max-w-3xl mx-auto">
-      <h1 className="text-3xl font-bold text-slate-900">{page.title}</h1>
+      <h1 className="font-serif text-3xl text-slate-900">{page.title}</h1>
       <p className="mt-2 text-sm text-slate-500">Last updated: {new Date(page.updated_at).toLocaleDateString('en-NG')}</p>
       <div className="mt-8 prose prose-slate max-w-none">
         <p className="text-slate-600 leading-relaxed whitespace-pre-line">{page.content}</p>

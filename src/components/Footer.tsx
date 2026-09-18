@@ -1,4 +1,4 @@
-import { GraduationCap, Mail, Phone, MessageCircle } from 'lucide-react';
+import { Mail, Phone, MessageCircle } from 'lucide-react';
 import { useRouter } from '@/context/RouterContext';
 import { whatsappLink } from '@/lib/utils';
 
@@ -6,15 +6,15 @@ export function Footer() {
   const { navigate } = useRouter();
 
   return (
-    <footer className="bg-slate-900 text-slate-300 mt-auto">
+    <footer className="bg-teal-950 text-slate-300 mt-auto">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="md:col-span-2">
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-teal-500 to-teal-700 flex items-center justify-center">
-                <GraduationCap className="w-5 h-5 text-white" />
+            <div className="flex items-center gap-2.5 mb-4">
+              <div className="w-8 h-8 rounded-md bg-amber-600 flex items-center justify-center">
+                <span className="font-serif text-white text-base leading-none">P</span>
               </div>
-              <span className="font-bold text-lg text-white">ProjectHub<span className="text-teal-300">NG</span></span>
+              <span className="font-serif text-lg text-white">ProjectHub <span className="text-amber-500">NG</span></span>
             </div>
             <p className="text-sm text-slate-400 max-w-md">
               Nigeria's premier platform for academic project assistance. We help university students

@@ -65,7 +65,7 @@ export function ProfilePage() {
           <User className="w-6 h-6 text-teal-600" />
         </div>
         <div>
-          <h1 className="text-2xl font-bold text-slate-900">My Profile</h1>
+          <h1 className="font-serif text-2xl text-slate-900">My Profile</h1>
           <p className="text-sm text-slate-600">{profile.email}</p>
         </div>
       </div>

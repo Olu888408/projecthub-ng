@@ -46,7 +46,7 @@ export function ContactPage() {
     <div className="animate-fade-in">
       <section className="bg-gradient-to-b from-slate-50 to-white py-16">
         <div className="container-page text-center max-w-3xl mx-auto">
-          <h1 className="text-4xl font-bold text-slate-900">Contact Us</h1>
+          <h1 className="font-serif text-4xl text-slate-900">Contact Us</h1>
           <p className="mt-4 text-lg text-slate-600">
             Have questions? We're here to help. Reach out and we'll respond within 24 hours.
           </p>

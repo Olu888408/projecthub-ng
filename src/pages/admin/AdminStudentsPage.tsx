@@ -46,7 +46,7 @@ export function AdminStudentsPage() {
 
   return (
     <div className="container-page py-8 animate-fade-in">
-      <h1 className="text-2xl font-bold text-slate-900 mb-6">Students</h1>
+      <h1 className="font-serif text-2xl text-slate-900 mb-6">Students</h1>
 
       <div className="relative mb-6">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />

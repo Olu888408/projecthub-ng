@@ -61,7 +61,7 @@ export function AdminPaymentsPage() {
   return (
     <div className="container-page py-8 animate-fade-in">
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-slate-900">Payments</h1>
+        <h1 className="font-serif text-2xl text-slate-900">Payments</h1>
         <Card className="px-5 py-3">
           <p className="text-xs text-slate-500">Total Revenue</p>
           <p className="text-xl font-bold text-emerald-600">{formatCurrency(totalRevenue)}</p>
@@ -84,7 +84,7 @@ export function AdminPaymentsPage() {
       ) : (
         <div className="space-y-3">
           {filtered.map((pay) => (
-            <Card key={pay.id} className="p-5 hover:shadow-md transition-shadow">
+            <Card key={pay.id} className="p-5 hover:border-slate-300 transition-colors">
               <div className="flex items-center justify-between">
                 <div className="flex-1 min-w-0">
                   <p className="font-semibold text-slate-900">{formatCurrency(Number(pay.amount))}</p>

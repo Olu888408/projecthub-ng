@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { Plus, FileText, Clock, CheckCircle, TrendingUp, ArrowRight } from 'lucide-react';
+import { Plus, FileText, ArrowRight } from 'lucide-react';
 import { useRouter } from '@/context/RouterContext';
 import { useAuth } from '@/context/AuthContext';
-import { Button, Card, Badge, Spinner, EmptyState } from '@/components/ui';
+import { Button, Badge, Spinner, EmptyState } from '@/components/ui';
 import { supabase } from '@/lib/supabase';
 import { statusColors, statusLabel, formatDate } from '@/lib/utils';
 import type { Project } from '@/types/database';
@@ -40,66 +40,64 @@ export function StudentDashboard() {
     return <div className="flex items-center justify-center py-20"><Spinner className="h-8 w-8" /></div>;
   }
 
-  const statCards = [
-    { icon: FileText, label: 'Total Projects', value: stats.total, color: 'text-teal-600 bg-teal-50' },
-    { icon: Clock, label: 'Pending', value: stats.pending, color: 'text-amber-600 bg-amber-50' },
-    { icon: TrendingUp, label: 'In Progress', value: stats.inProgress, color: 'text-blue-600 bg-blue-50' },
-    { icon: CheckCircle, label: 'Completed', value: stats.completed, color: 'text-emerald-600 bg-emerald-50' },
+  const statItems = [
+    { label: 'Total projects', value: stats.total },
+    { label: 'Awaiting review', value: stats.pending },
+    { label: 'In progress', value: stats.inProgress },
+    { label: 'Completed', value: stats.completed },
   ];
 
   return (
-    <div className="container-page py-8 animate-fade-in">
+    <div className="container-page py-8">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900">Dashboard</h1>
-          <p className="text-sm text-slate-600 mt-1">Welcome back, {profile?.full_name || 'Student'}</p>
+          <h1 className="font-serif text-2xl text-slate-900">Dashboard</h1>
+          <p className="text-sm text-slate-500 mt-1">Welcome back, {profile?.full_name || 'Student'}</p>
         </div>
         <Button onClick={() => navigate('/projects/new')}>
           <Plus className="w-4 h-4" /> New Project
         </Button>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-        {statCards.map((stat) => (
-          <Card key={stat.label} className="p-5">
-            <div className={`w-10 h-10 rounded-lg flex items-center justify-center mb-3 ${stat.color}`}>
-              <stat.icon className="w-5 h-5" />
-            </div>
-            <div className="text-2xl font-bold text-slate-900">{stat.value}</div>
-            <div className="text-sm text-slate-500">{stat.label}</div>
-          </Card>
+      <dl className="grid grid-cols-2 md:grid-cols-4 gap-6 py-6 border-y border-slate-200 mb-8">
+        {statItems.map((stat) => (
+          <div key={stat.label}>
+            <dt className="text-xs text-slate-500">{stat.label}</dt>
+            <dd className="mt-1 text-2xl font-serif text-slate-900">{stat.value}</dd>
+          </div>
         ))}
-      </div>
+      </dl>
 
-      <h2 className="text-lg font-semibold text-slate-900 mb-4">Recent Projects</h2>
+      <h2 className="text-sm font-semibold text-slate-700 mb-4">Your projects</h2>
       {projects.length === 0 ? (
-        <Card>
+        <div className="border border-slate-200 rounded-xl">
           <EmptyState
-            icon={<FileText className="w-12 h-12" />}
+            icon={<FileText className="w-10 h-10" />}
             title="No projects yet"
             description="Submit your first project to get started with academic assistance."
             action={<Button onClick={() => navigate('/projects/new')}>Create Your First Project</Button>}
           />
-        </Card>
+        </div>
       ) : (
-        <div className="space-y-3">
-          {projects.slice(0, 5).map((project) => (
-            <Card key={project.id} className="p-5 hover:shadow-md transition-shadow cursor-pointer" >
-              <div onClick={() => navigate(`/projects/${project.id}`)} className="flex items-center justify-between">
-                <div className="flex-1 min-w-0">
-                  <h3 className="font-semibold text-slate-900 truncate">{project.title}</h3>
-                  <p className="text-sm text-slate-500 mt-1 truncate">{project.description || 'No description'}</p>
-                  <div className="flex items-center gap-3 mt-2 text-xs text-slate-400">
-                    <span>{formatDate(project.created_at)}</span>
-                    {project.package && <span>• {project.package.title}</span>}
-                  </div>
-                </div>
-                <div className="flex items-center gap-3 ml-4">
-                  <Badge className={statusColors(project.status)}>{statusLabel(project.status)}</Badge>
-                  <ArrowRight className="w-4 h-4 text-slate-400" />
+        <div className="border-t border-slate-200">
+          {projects.slice(0, 8).map((project) => (
+            <button
+              key={project.id}
+              onClick={() => navigate(`/projects/${project.id}`)}
+              className="w-full flex items-center justify-between py-4 border-b border-slate-200 text-left hover:bg-slate-50 transition-colors px-2 -mx-2 rounded-md"
+            >
+              <div className="min-w-0">
+                <p className="font-medium text-slate-900 truncate">{project.title}</p>
+                <div className="flex items-center gap-2 mt-1 text-xs text-slate-500">
+                  <span>{formatDate(project.created_at)}</span>
+                  {project.package && <span>· {project.package.title}</span>}
                 </div>
               </div>
-            </Card>
+              <div className="flex items-center gap-3 ml-4 flex-shrink-0">
+                <Badge className={statusColors(project.status)}>{statusLabel(project.status)}</Badge>
+                <ArrowRight className="w-4 h-4 text-slate-400" />
+              </div>
+            </button>
           ))}
         </div>
       )}

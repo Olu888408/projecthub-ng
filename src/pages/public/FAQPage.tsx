@@ -24,7 +24,7 @@ export function FAQPage() {
     <div className="animate-fade-in">
       <section className="bg-gradient-to-b from-slate-50 to-white py-16">
         <div className="container-page text-center max-w-3xl mx-auto">
-          <h1 className="text-4xl font-bold text-slate-900">Frequently Asked Questions</h1>
+          <h1 className="font-serif text-4xl text-slate-900">Frequently Asked Questions</h1>
           <p className="mt-4 text-lg text-slate-600">
             Find answers to common questions about our services, process, and policies.
           </p>

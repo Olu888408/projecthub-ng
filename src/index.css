@@ -4,8 +4,11 @@
 
 @layer base {
   body {
-    @apply bg-slate-50 text-slate-900 antialiased;
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    @apply bg-white text-slate-900 antialiased;
+    font-family: 'Public Sans', system-ui, -apple-system, sans-serif;
+  }
+  h1, h2, h3 {
+    letter-spacing: -0.01em;
   }
 }
 
@@ -23,9 +26,22 @@
   background: #f1f5f9;
 }
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: #b3bdd5;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: #8d9cc0;
+}
+
+:focus-visible {
+  outline: 2px solid #9C5522;
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

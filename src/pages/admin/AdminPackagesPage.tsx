@@ -85,7 +85,7 @@ export function AdminPackagesPage() {
   return (
     <div className="container-page py-8 animate-fade-in">
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-slate-900">Packages</h1>
+        <h1 className="font-serif text-2xl text-slate-900">Packages</h1>
         <Button onClick={() => { setShowForm(!showForm); setEditing(null); setForm({ title: '', description: '', price: '', features: '', is_active: true, display_order: 0 }); }}>
           <Plus className="w-4 h-4" /> Add Package
         </Button>

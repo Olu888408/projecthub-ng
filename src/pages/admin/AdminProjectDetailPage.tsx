@@ -200,7 +200,7 @@ export function AdminProjectDetailPage() {
 
       <div className="flex items-start justify-between mb-8">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900">{project.title}</h1>
+          <h1 className="font-serif text-2xl text-slate-900">{project.title}</h1>
           <p className="text-sm text-slate-500 mt-1">Created on {formatDate(project.created_at)}</p>
         </div>
         <Badge className={statusColors(project.status)}>{statusLabel(project.status)}</Badge>

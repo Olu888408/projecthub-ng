@@ -179,7 +179,7 @@ export function ProjectDetailPage() {
 
       <div className="flex items-start justify-between mb-8">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900">{project.title}</h1>
+          <h1 className="font-serif text-2xl text-slate-900">{project.title}</h1>
           <p className="text-sm text-slate-500 mt-1">Created on {formatDate(project.created_at)}</p>
         </div>
         <Badge className={statusColors(project.status)}>{statusLabel(project.status)}</Badge>
@@ -202,7 +202,7 @@ export function ProjectDetailPage() {
             </div>
             <p className="text-lg font-bold text-slate-900">₦{pkg.price.toLocaleString()}</p>
           </div>
-          {!isAdmin && (
+                    {!isAdmin && (
             <div className="mt-4 pt-4 border-t border-slate-100">
               <div className="bg-slate-50 rounded-lg p-4 mb-3">
                 <p className="text-sm font-semibold text-slate-700 mb-2">Pay via Bank Transfer</p>

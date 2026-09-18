@@ -156,7 +156,7 @@ export function NewProjectPage() {
         <ArrowLeft className="w-4 h-4" /> Back to Dashboard
       </button>
 
-      <h1 className="text-2xl font-bold text-slate-900 mb-6">Submit a New Project</h1>
+      <h1 className="font-serif text-2xl text-slate-900 mb-6">Submit a New Project</h1>
 
       <Card className="p-8">
         <form onSubmit={handleSubmit} className="space-y-5">

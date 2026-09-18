@@ -4,31 +4,52 @@ export default {
   theme: {
     extend: {
       colors: {
+        // Primary brand: deep ink-navy — an official-document, trustworthy
+        // feel rather than a generic SaaS blue. Key names kept as "teal" so
+        // all existing bg-teal-*/text-teal-* usage across the app updates
+        // automatically without touching every file.
         teal: {
-          50: '#eef2f7',
-          100: '#d3dfee',
-          200: '#a8bddd',
-          300: '#7a9bc9',
-          400: '#4f7ab0',
-          500: '#2e5a91',
-          600: '#1e3d6b',
-          700: '#162f52',
-          800: '#102342',
-          900: '#0a1a33',
-          950: '#070f1f',
+          50: '#EFF1F6',
+          100: '#D9DEEA',
+          200: '#B3BDD5',
+          300: '#8D9CC0',
+          400: '#56658F',
+          500: '#2E3B5E',
+          600: '#1B2745',
+          700: '#141D34',
+          800: '#0F1626',
+          900: '#0A0F1A',
+          950: '#05080D',
         },
+        // Accent: burnt clay/ochre — used sparingly for the one
+        // distinctive visual moment (hero accent, star ratings, highlight
+        // chips), never as a background wash.
         amber: {
-          50: '#fefae8',
-          100: '#fdf3c4',
-          200: '#fae888',
-          300: '#f5d84e',
-          400: '#e6c020',
-          500: '#cba014',
-          600: '#a67d10',
-          700: '#85610e',
-          800: '#6b4d0e',
-          900: '#5a3f0e',
+          50: '#FBF4EC',
+          100: '#F5E3CC',
+          200: '#EBC593',
+          300: '#DFA663',
+          400: '#CE8541',
+          500: '#B96B2C',
+          600: '#9C5522',
+          700: '#7C431B',
+          800: '#5F3316',
+          900: '#472712',
         },
+      },
+      fontFamily: {
+        sans: ['"Public Sans"', 'system-ui', '-apple-system', 'sans-serif'],
+        serif: ['Fraunces', 'Georgia', 'serif'],
+      },
+      borderRadius: {
+        lg: '6px',
+        xl: '8px',
+        '2xl': '10px',
+      },
+      boxShadow: {
+        sm: '0 1px 2px 0 rgba(10, 15, 26, 0.04)',
+        DEFAULT: '0 1px 3px 0 rgba(10, 15, 26, 0.06)',
+        md: '0 2px 6px 0 rgba(10, 15, 26, 0.06)',
       },
       animation: {
         'slide-in': 'slide-in 0.3s ease-out',

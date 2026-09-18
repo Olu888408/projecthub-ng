@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { GraduationCap, Mail, Lock, ArrowLeft, CheckCircle } from 'lucide-react';
+import { Mail, Lock, ArrowLeft, CheckCircle } from 'lucide-react';
 import { useRouter } from '@/context/RouterContext';
 import { Button } from '@/components/ui';
 import { supabase } from '@/lib/supabase';
@@ -75,17 +75,14 @@ export function ResetPasswordPage() {
 
   if (recoveryMode) {
     return (
-      <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center px-4 py-12 bg-gradient-to-b from-slate-50 to-white">
+      <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center px-4 py-12 bg-white">
         <div className="w-full max-w-md">
-          <div className="text-center mb-8">
-            <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-teal-500 to-teal-700 flex items-center justify-center mx-auto mb-4">
-              <GraduationCap className="w-7 h-7 text-white" />
-            </div>
-            <h1 className="text-2xl font-bold text-slate-900">Set a New Password</h1>
+          <div className="mb-8">
+            <h1 className="text-2xl font-serif text-slate-900">Set a New Password</h1>
             <p className="mt-1 text-sm text-slate-600">Choose a new password for your account</p>
           </div>
 
-          <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-8">
+          <div className="bg-white rounded-xl border border-slate-200 p-8">
             {updated ? (
               <div className="text-center py-4">
                 <CheckCircle className="w-12 h-12 text-emerald-500 mx-auto mb-4" />
@@ -134,17 +131,14 @@ export function ResetPasswordPage() {
   }
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center px-4 py-12 bg-gradient-to-b from-slate-50 to-white">
+    <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center px-4 py-12 bg-white">
       <div className="w-full max-w-md">
-        <div className="text-center mb-8">
-          <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-teal-500 to-teal-700 flex items-center justify-center mx-auto mb-4">
-            <GraduationCap className="w-7 h-7 text-white" />
+        <div className="mb-8">
+            <h1 className="text-2xl font-serif text-slate-900">Reset Password</h1>
+            <p className="mt-1 text-sm text-slate-600">We'll send you instructions to reset your password</p>
           </div>
-          <h1 className="text-2xl font-bold text-slate-900">Reset Password</h1>
-          <p className="mt-1 text-sm text-slate-600">We'll send you instructions to reset your password</p>
-        </div>
 
-        <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-8">
+        <div className="bg-white rounded-xl border border-slate-200 p-8">
           {sent ? (
             <div className="text-center py-4">
               <CheckCircle className="w-12 h-12 text-emerald-500 mx-auto mb-4" />

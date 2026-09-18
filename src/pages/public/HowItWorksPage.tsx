@@ -32,7 +32,7 @@ export function HowItWorksPage() {
     <div className="animate-fade-in">
       <section className="bg-gradient-to-b from-slate-50 to-white py-16">
         <div className="container-page text-center max-w-3xl mx-auto">
-          <h1 className="text-4xl font-bold text-slate-900">How It Works</h1>
+          <h1 className="font-serif text-4xl text-slate-900">How It Works</h1>
           <p className="mt-4 text-lg text-slate-600">
             A simple, structured process to get the research support you need — from initial request to defense preparation.
           </p>
@@ -55,7 +55,7 @@ export function HowItWorksPage() {
 
       <section className="bg-slate-50 py-16">
         <div className="container-page">
-          <h2 className="text-2xl font-bold text-slate-900 text-center mb-8">What You Can Expect</h2>
+          <h2 className="font-serif text-2xl text-slate-900 text-center mb-8">What You Can Expect</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-3xl mx-auto">
             {[
               'Clear communication throughout the process',

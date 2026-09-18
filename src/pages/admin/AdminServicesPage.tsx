@@ -74,7 +74,7 @@ export function AdminServicesPage() {
   return (
     <div className="container-page py-8 animate-fade-in">
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-slate-900">Services</h1>
+        <h1 className="font-serif text-2xl text-slate-900">Services</h1>
         <Button onClick={() => { setShowForm(!showForm); setEditing(null); setForm({ name: '', category: '', description: '', active: true }); }}>
           <Plus className="w-4 h-4" /> Add Service
         </Button>
