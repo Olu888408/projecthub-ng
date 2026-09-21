@@ -15,6 +15,7 @@ import { ContactPage } from '@/pages/public/ContactPage';
 import { LegalPage } from '@/pages/public/LegalPage';
 import { HowItWorksPage } from '@/pages/public/HowItWorksPage';
 import { FAQPage } from '@/pages/public/FAQPage';
+import { SmallProjectsPage } from '@/pages/public/SmallProjectsPage';
 
 import { SignInPage } from '@/pages/auth/SignInPage';
 import { SignUpPage } from '@/pages/auth/SignUpPage';
@@ -25,8 +26,11 @@ import { NewProjectPage } from '@/pages/student/NewProjectPage';
 import { ProjectDetailPage } from '@/pages/student/ProjectDetailPage';
 import { ProfilePage } from '@/pages/student/ProfilePage';
 import { NotificationsPage } from '@/pages/student/NotificationsPage';
+import { TasksListPage } from '@/pages/student/TasksListPage';
+import { NewTaskPage } from '@/pages/student/NewTaskPage';
+import { TaskDetailPage } from '@/pages/student/TaskDetailPage';
 
-import { AdminDashboard } from '@/pages/admin/AdminDashboard';
+import { AdminDashboard, AdminNav } from '@/pages/admin/AdminDashboard';
 import { AdminProjectsPage } from '@/pages/admin/AdminProjectsPage';
 import { AdminProjectDetailPage } from '@/pages/admin/AdminProjectDetailPage';
 import { AdminPaymentsPage } from '@/pages/admin/AdminPaymentsPage';
@@ -36,6 +40,8 @@ import { AdminSettingsPage } from '@/pages/admin/AdminSettingsPage';
 import { AdminStudentsPage } from '@/pages/admin/AdminStudentsPage';
 import { AdminServicesPage } from '@/pages/admin/AdminServicesPage';
 import { AdminPackagesPage } from '@/pages/admin/AdminPackagesPage';
+import { AdminTasksPage } from '@/pages/admin/AdminTasksPage';
+import { AdminTaskDetailPage } from '@/pages/admin/AdminTaskDetailPage';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
@@ -83,6 +89,7 @@ function Routes() {
   if (path === '/how-it-works') return <HowItWorksPage />;
   if (path === '/faq') return <FAQPage />;
   if (path === '/contact') return <ContactPage />;
+  if (path === '/small-projects') return <SmallProjectsPage />;
   if (parts[0] === 'legal' && parts[1]) return <LegalPage />;
   if (parts[0] === 'privacy') return <LegalPage />;
   if (parts[0] === 'terms') return <LegalPage />;
@@ -102,11 +109,16 @@ function Routes() {
   if (parts[0] === 'projects' && parts[1]) return <ProtectedRoute><ProjectDetailPage /></ProtectedRoute>;
   if (path === '/profile') return <ProtectedRoute><ProfilePage /></ProtectedRoute>;
   if (path === '/notifications') return <ProtectedRoute><NotificationsPage /></ProtectedRoute>;
+  if (path === '/tasks/new') return <ProtectedRoute><NewTaskPage /></ProtectedRoute>;
+  if (path === '/tasks') return <ProtectedRoute><TasksListPage /></ProtectedRoute>;
+  if (parts[0] === 'tasks' && parts[1]) return <ProtectedRoute><TaskDetailPage /></ProtectedRoute>;
 
   // Admin routes (protected + admin role)
   if (path === '/admin') return <AdminRoute><AdminDashboard /></AdminRoute>;
   if (path === '/admin/projects') return <AdminRoute><AdminProjectsPage /></AdminRoute>;
   if (parts[0] === 'admin' && parts[1] === 'projects' && parts[2]) return <AdminRoute><AdminProjectDetailPage /></AdminRoute>;
+  if (path === '/admin/tasks') return <AdminRoute><AdminTasksPage /></AdminRoute>;
+  if (parts[0] === 'admin' && parts[1] === 'tasks' && parts[2]) return <AdminRoute><AdminTaskDetailPage /></AdminRoute>;
   if (path === '/admin/payments') return <AdminRoute><AdminPaymentsPage /></AdminRoute>;
   if (path === '/admin/messages') return <AdminRoute><AdminMessagesPage /></AdminRoute>;
   if (path === '/admin/students') return <AdminRoute><AdminStudentsPage /></AdminRoute>;
@@ -136,10 +148,12 @@ function AppContent() {
   const isAdminArea = parts[0] === 'admin';
   const isAuthArea = path === '/signin' || path === '/signup' || path === '/reset-password';
   const showChrome = !isAdminArea && !isAuthArea;
+  const showAdminNav = isAdminArea && user && profile?.role === 'admin';
 
   return (
     <div className="min-h-screen flex flex-col">
       {showChrome && <Navbar />}
+      {showAdminNav && <AdminNav />}
       <main className="flex-1">
         <Routes />
       </main>

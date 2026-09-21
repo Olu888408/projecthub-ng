@@ -26,7 +26,13 @@ export function useParams(): Record<string, string> {
   if (parts[0] === 'projects' && parts[1]) {
     params.id = parts[1];
   }
+  if (parts[0] === 'tasks' && parts[1]) {
+    params.id = parts[1];
+  }
   if (parts[0] === 'admin' && parts[1] === 'projects' && parts[2]) {
+    params.id = parts[2];
+  }
+  if (parts[0] === 'admin' && parts[1] === 'tasks' && parts[2]) {
     params.id = parts[2];
   }
   if (parts[0] === 'admin' && parts[1] === 'legal' && parts[2]) {

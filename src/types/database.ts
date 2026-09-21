@@ -82,7 +82,8 @@ export interface ProjectFile {
 
 export interface Payment {
   id: string;
-  project_id: string;
+  project_id: string | null;
+  task_id: string | null;
   user_id: string;
   amount: number;
   currency: string;
@@ -92,11 +93,43 @@ export interface Payment {
   created_at: string;
   updated_at: string;
   project?: Project;
+  task?: Task;
+}
+
+export type TaskStatus = 'pending' | 'reviewing' | 'accepted' | 'in_progress' | 'completed' | 'cancelled';
+
+export interface Task {
+  id: string;
+  user_id: string;
+  title: string;
+  course: string | null;
+  department: string | null;
+  category: string;
+  description: string | null;
+  deadline: string | null;
+  budget: number | null;
+  status: TaskStatus;
+  admin_notes: string | null;
+  assigned_admin_id: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface TaskFile {
+  id: string;
+  task_id: string;
+  file_name: string;
+  file_path: string;
+  file_size: number;
+  file_type: string;
+  uploaded_by: string;
+  created_at: string;
 }
 
 export interface Message {
   id: string;
-  project_id: string;
+  project_id: string | null;
+  task_id: string | null;
   sender_id: string;
   recipient_id: string | null;
   content: string;

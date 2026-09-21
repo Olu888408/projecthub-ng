@@ -132,6 +132,46 @@ export const ALLOWED_FILE_TYPES = [
 
 export const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
 
+export const TASK_CATEGORIES = [
+  'Assignments',
+  'Mini Projects',
+  'Coursework',
+  'Practical/Lab Work',
+  'Programming Tasks',
+  'Web Development',
+  'Computer Science',
+  'Engineering',
+  'Business & Management',
+  'Mathematics',
+  'Statistics',
+  'Research & Writing',
+  'Other',
+];
+
+export function taskStatusColors(status: string): string {
+  const colors: Record<string, string> = {
+    pending: 'bg-amber-100 text-amber-800 border-amber-200',
+    reviewing: 'bg-blue-100 text-blue-800 border-blue-200',
+    accepted: 'bg-indigo-100 text-indigo-800 border-indigo-200',
+    in_progress: 'bg-sky-100 text-sky-800 border-sky-200',
+    completed: 'bg-emerald-100 text-emerald-800 border-emerald-200',
+    cancelled: 'bg-red-100 text-red-800 border-red-200',
+  };
+  return colors[status] || 'bg-gray-100 text-gray-800 border-gray-200';
+}
+
+export function taskStatusLabel(status: string): string {
+  const labels: Record<string, string> = {
+    pending: 'Pending',
+    reviewing: 'Reviewing',
+    accepted: 'Accepted',
+    in_progress: 'In Progress',
+    completed: 'Completed',
+    cancelled: 'Cancelled',
+  };
+  return labels[status] || status;
+}
+
 export function validateFile(file: File): { valid: boolean; error?: string } {
   if (file.size > MAX_FILE_SIZE) {
     return { valid: false, error: 'File size exceeds 50MB limit' };

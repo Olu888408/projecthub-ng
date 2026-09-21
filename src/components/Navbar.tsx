@@ -28,6 +28,7 @@ export function Navbar() {
   const navLinks = [
     { label: 'Home', path: '/' },
     { label: 'Services', path: '/services' },
+    { label: 'Small Projects', path: '/small-projects' },
     { label: 'Packages', path: '/packages' },
     { label: 'How It Works', path: '/how-it-works' },
     { label: 'About', path: '/about' },

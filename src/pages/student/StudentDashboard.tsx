@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
-import { Plus, FileText, ArrowRight } from 'lucide-react';
+import { Plus, FileText, ArrowRight, ClipboardList } from 'lucide-react';
 import { useRouter } from '@/context/RouterContext';
 import { useAuth } from '@/context/AuthContext';
 import { Button, Badge, Spinner, EmptyState } from '@/components/ui';
 import { supabase } from '@/lib/supabase';
 import { statusColors, statusLabel, formatDate } from '@/lib/utils';
-import type { Project } from '@/types/database';
+import type { Project, Task } from '@/types/database';
 
 export function StudentDashboard() {
   const { user, profile } = useAuth();
@@ -13,15 +13,15 @@ export function StudentDashboard() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState({ total: 0, pending: 0, inProgress: 0, completed: 0 });
+  const [taskStats, setTaskStats] = useState({ pending: 0, inProgress: 0, completed: 0 });
 
   useEffect(() => {
     (async () => {
       if (!user) return;
-      const { data } = await supabase
-        .from('projects')
-        .select('*, package:packages(*)')
-        .eq('user_id', user.id)
-        .order('created_at', { ascending: false });
+      const [{ data }, { data: taskData }] = await Promise.all([
+        supabase.from('projects').select('*, package:packages(*)').eq('user_id', user.id).order('created_at', { ascending: false }),
+        supabase.from('tasks').select('status').eq('user_id', user.id),
+      ]);
       if (data) {
         setProjects(data as Project[]);
         const active = ['in_progress', 'under_review', 'consultation', 'awaiting_info', 'presentation_prep'];
@@ -30,6 +30,15 @@ export function StudentDashboard() {
           pending: data.filter((p) => p.status === 'request_submitted').length,
           inProgress: data.filter((p) => active.includes(p.status)).length,
           completed: data.filter((p) => p.status === 'completed').length,
+        });
+      }
+      if (taskData) {
+        const tasks = taskData as Pick<Task, 'status'>[];
+        const activeTask = ['reviewing', 'accepted', 'in_progress'];
+        setTaskStats({
+          pending: tasks.filter((t) => t.status === 'pending').length,
+          inProgress: tasks.filter((t) => activeTask.includes(t.status)).length,
+          completed: tasks.filter((t) => t.status === 'completed').length,
         });
       }
       setLoading(false);
@@ -101,6 +110,24 @@ export function StudentDashboard() {
           ))}
         </div>
       )}
+
+      <div className="mt-10 border border-slate-200 rounded-xl p-5">
+        <div className="flex items-center justify-between mb-3">
+          <h2 className="text-sm font-semibold text-slate-700 flex items-center gap-2">
+            <ClipboardList className="w-4 h-4" /> Small Projects &amp; Assignments
+          </h2>
+          <button onClick={() => navigate('/tasks')} className="text-sm text-teal-700 hover:underline">View All</button>
+        </div>
+        {taskStats.pending + taskStats.inProgress + taskStats.completed === 0 ? (
+          <p className="text-sm text-slate-500">No small projects or assignments yet.</p>
+        ) : (
+          <div className="flex items-center gap-6 text-sm text-slate-600">
+            <span>{taskStats.pending} Pending</span>
+            <span>{taskStats.inProgress} In Progress</span>
+            <span>{taskStats.completed} Completed</span>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

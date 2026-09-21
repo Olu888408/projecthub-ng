@@ -7,6 +7,42 @@ import { supabase } from '@/lib/supabase';
 import { statusColors, statusLabel, formatDate, formatCurrency } from '@/lib/utils';
 import type { Project, ContactMessage } from '@/types/database';
 
+const ADMIN_NAV = [
+  { label: 'Dashboard', path: '/admin' },
+  { label: 'Projects', path: '/admin/projects' },
+  { label: 'Small Projects', path: '/admin/tasks' },
+  { label: 'Payments', path: '/admin/payments' },
+  { label: 'Students', path: '/admin/students' },
+  { label: 'Messages', path: '/admin/messages' },
+  { label: 'Services', path: '/admin/services' },
+  { label: 'Packages', path: '/admin/packages' },
+  { label: 'Testimonials', path: '/admin/testimonials' },
+  { label: 'Settings', path: '/admin/settings' },
+];
+
+export function AdminNav() {
+  const { path, navigate } = useRouter();
+  return (
+    <div className="border-b border-slate-200 bg-white sticky top-0 z-30">
+      <div className="container-page overflow-x-auto">
+        <nav className="flex gap-1 py-2 min-w-max">
+          {ADMIN_NAV.map((item) => (
+            <button
+              key={item.path}
+              onClick={() => navigate(item.path)}
+              className={`px-3 py-1.5 rounded-md text-sm font-medium whitespace-nowrap transition-colors ${
+                path === item.path ? 'bg-teal-50 text-teal-800' : 'text-slate-600 hover:bg-slate-100'
+              }`}
+            >
+              {item.label}
+            </button>
+          ))}
+        </nav>
+      </div>
+    </div>
+  );
+}
+
 export function AdminDashboard() {
   const { profile } = useAuth();
   const { navigate } = useRouter();
