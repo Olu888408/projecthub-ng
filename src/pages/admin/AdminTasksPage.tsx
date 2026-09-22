@@ -25,6 +25,12 @@ export function AdminTasksPage() {
     })();
   }, []);
 
+  const categoryCounts = tasks.reduce<Record<string, number>>((acc, t) => {
+    acc[t.category] = (acc[t.category] || 0) + 1;
+    return acc;
+  }, {});
+  const activeCategories = TASK_CATEGORIES.filter((c) => categoryCounts[c]);
+
   const filtered = tasks.filter((t) => {
     const q = search.toLowerCase();
     const matchesSearch = !q || t.title.toLowerCase().includes(q) || (t.course ?? '').toLowerCase().includes(q);
@@ -40,6 +46,30 @@ export function AdminTasksPage() {
   return (
     <div className="container-page py-8 animate-fade-in">
       <h1 className="font-serif text-2xl text-slate-900 mb-6">Small Projects &amp; Assignments</h1>
+
+      {activeCategories.length > 0 && (
+        <div className="flex gap-2 flex-wrap mb-4">
+          <button
+            onClick={() => setCategoryFilter('')}
+            className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-colors ${
+              categoryFilter === '' ? 'bg-teal-50 text-teal-800 border-teal-200' : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
+            }`}
+          >
+            All ({tasks.length})
+          </button>
+          {activeCategories.map((c) => (
+            <button
+              key={c}
+              onClick={() => setCategoryFilter(categoryFilter === c ? '' : c)}
+              className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-colors ${
+                categoryFilter === c ? 'bg-teal-50 text-teal-800 border-teal-200' : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
+              }`}
+            >
+              {c} ({categoryCounts[c]})
+            </button>
+          ))}
+        </div>
+      )}
 
       <div className="flex flex-col sm:flex-row gap-3 mb-6">
         <div className="relative flex-1">

@@ -29,6 +29,14 @@ export function TasksListPage() {
     })();
   }, [user]);
 
+  useEffect(() => {
+    const prefill = sessionStorage.getItem('prefill_task_category');
+    if (prefill) {
+      setCategoryFilter(prefill);
+      sessionStorage.removeItem('prefill_task_category');
+    }
+  }, []);
+
   const filtered = tasks.filter((t) => {
     const q = search.toLowerCase();
     const matchesSearch = !q || t.title.toLowerCase().includes(q) || (t.course ?? '').toLowerCase().includes(q) || t.category.toLowerCase().includes(q);
@@ -45,7 +53,7 @@ export function TasksListPage() {
     <div className="container-page py-8 animate-fade-in">
       <div className="flex items-center justify-between mb-6">
         <h1 className="font-serif text-2xl text-slate-900">Small Projects &amp; Assignments</h1>
-        <Button onClick={() => navigate('/tasks/new')}>
+        <Button onClick={() => { if (categoryFilter) sessionStorage.setItem('prefill_task_category', categoryFilter); navigate('/tasks/new'); }}>
           <Plus className="w-4 h-4" /> Post a Task
         </Button>
       </div>

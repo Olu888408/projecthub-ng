@@ -28,6 +28,15 @@ export function SmallProjectsPage() {
     navigate(user ? '/tasks/new' : '/signup');
   }
 
+  function handleCategoryClick(cat: string) {
+    if (user) {
+      sessionStorage.setItem('prefill_task_category', cat);
+      navigate('/tasks');
+    } else {
+      navigate('/signup');
+    }
+  }
+
   return (
     <div className="animate-fade-in">
       <section className="bg-gradient-to-b from-slate-50 to-white py-16">
@@ -58,7 +67,7 @@ export function SmallProjectsPage() {
           {TASK_CATEGORIES.filter((c) => c !== 'Other').map((cat) => {
             const Icon = CATEGORY_ICONS[cat] || ClipboardList;
             return (
-              <Card key={cat} className="p-5 flex items-center gap-3">
+              <Card key={cat} className="p-5 flex items-center gap-3 cursor-pointer hover:border-teal-300 transition-colors" onClick={() => handleCategoryClick(cat)}>
                 <div className="w-10 h-10 rounded-lg bg-teal-50 flex items-center justify-center flex-shrink-0">
                   <Icon className="w-5 h-5 text-teal-700" />
                 </div>
