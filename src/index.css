@@ -7,8 +7,12 @@
     @apply bg-white text-slate-900 antialiased;
     font-family: 'Public Sans', system-ui, -apple-system, sans-serif;
   }
-  h1, h2, h3 {
+  h1, h2, h3, h4 {
     letter-spacing: -0.01em;
+  }
+  ::selection {
+    background-color: #F5E3CC;
+    color: #472712;
   }
 }
 

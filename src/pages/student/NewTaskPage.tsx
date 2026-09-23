@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { ArrowLeft, Send, Upload, X, FileText, Loader2 } from 'lucide-react';
 import { useRouter } from '@/context/RouterContext';
 import { useAuth } from '@/context/AuthContext';
@@ -31,6 +31,14 @@ export function NewTaskPage() {
     budget: '',
     notes: '',
   });
+
+  useEffect(() => {
+    const prefill = sessionStorage.getItem('prefill_task_category');
+    if (prefill && TASK_CATEGORIES.includes(prefill)) {
+      setForm((f) => ({ ...f, category: prefill }));
+      sessionStorage.removeItem('prefill_task_category');
+    }
+  }, []);
 
   function handleFileSelect(e: React.ChangeEvent<HTMLInputElement>) {
     const selected = Array.from(e.target.files || []);
